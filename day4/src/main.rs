@@ -1,9 +1,10 @@
+use array_tool::vec::Intersect;
 use std::fs;
 
 #[derive(Debug)]
 struct WorkPair {
-    elf_one: (i32, i32),
-    elf_two: (i32, i32),
+    elf_one: Vec<i32>,
+    elf_two: Vec<i32>,
 }
 fn main() {
     let input = fs::read_to_string("input.txt").expect("Data not found");
@@ -20,8 +21,8 @@ fn main() {
                 .map(|val| val.parse::<i32>().unwrap())
                 .collect::<Vec<i32>>();
             return WorkPair {
-                elf_one: (elf_one[0], elf_one[1]),
-                elf_two: (elf_two[0], elf_two[1]),
+                elf_one: (elf_one[0]..=elf_one[1]).collect(),
+                elf_two: (elf_two[0]..=elf_two[1]).collect(),
             };
         })
         .collect();
@@ -29,9 +30,8 @@ fn main() {
     let temp = workorders
         .iter()
         .map(|pair| {
-            if (pair.elf_one.0 >= pair.elf_two.0 && pair.elf_one.1 <= pair.elf_two.1)
-                || (pair.elf_two.0 >= pair.elf_one.0 && pair.elf_two.1 <= pair.elf_one.1)
-            {
+            println!("{:?}", pair.elf_one.intersect(pair.elf_two.clone()));
+            if pair.elf_one.intersect(pair.elf_two.clone()).len() > 0 {
                 return 1;
             } else {
                 return 0;
