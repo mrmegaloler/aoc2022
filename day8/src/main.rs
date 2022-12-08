@@ -115,14 +115,12 @@ fn main() {
 
             let scenic_score = top * bottom * left * right;
 
-            if (x > 0 && y > 0) {
-                println!("{}", scenic_score);
-            }
             if max_score < scenic_score {
                 max_score = scenic_score
             }
         }
     }
 
+    println!("{:?}", visible_trees);
     println!("{:?}", max_score);
 }
