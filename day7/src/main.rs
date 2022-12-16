@@ -22,8 +22,11 @@ impl Node {
             let command = commands.pop().unwrap();
             if command.command == "cd .." {
                 self.size = self.children.iter().map(|x| x.size).sum();
-                if self.size <= 100000 && self.children.len() > 0 {
-                    *size_counter += self.size as i64;
+                if self.size >= (30000000 - (70000000 - 42080344))
+                    && self.children.len() > 0
+                    && self.size < size_counter.to_owned() as i32
+                {
+                    *size_counter = self.size as i64;
                 }
                 return self;
             }
@@ -53,8 +56,11 @@ impl Node {
                 };
                 let node = new_node.handle_commands(commands, size_counter);
                 self.children.push(node);
+                self.size = self.children.iter().map(|x| x.size).sum();
             }
+            self.size = self.children.iter().map(|x| x.size).sum();
         }
+        self.size = self.children.iter().map(|x| x.size).sum();
 
         return self;
     }
@@ -92,10 +98,11 @@ fn main() {
         size: -1,
     };
 
-    let mut size = 0;
+    let mut size: i64 = i32::MAX.into();
     let result = node.handle_commands(&mut commands, &mut size);
 
-    println!("{:?}", size)
+    println!("{:?}", size);
+    println!("{:?}", result);
 
     // let commands: Vec<Command> =
 
